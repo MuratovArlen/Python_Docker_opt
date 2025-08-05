@@ -8,8 +8,10 @@ from .serializers import SubscriptionSerializer
 
 class SubscriptionView(ReadOnlyModelViewSet):
     queryset = Subscription.objects.all().prefetch_related(
-        Prefetch('client', queryset=Client.objects.all().select_related('user').only('company_name',
-                                                              'user__email'))
+        'plan',
+        Prefetch('client',
+        queryset=Client.objects.all().select_related('user').only('company_name',
+                                                                  'user__email'))
     )   
 
     serializer_class = SubscriptionSerializer
